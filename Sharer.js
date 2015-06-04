@@ -24,7 +24,8 @@ var Sharer = function (options) {
 	}
 	this.share_tw = function () {
 		var meta_title = $("meta[property='og:title']");
-		var title = meta_title.text() ? " " + meta_title.text() : "";
+		var content = meta_title.attr("content");
+		var title = content ? " " + content : "";
 
 		this._openPopup(this.config.tw.popup_url + window.location.href + title, "tw");
 	}
