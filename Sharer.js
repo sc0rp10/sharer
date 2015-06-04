@@ -7,7 +7,7 @@ var Sharer = function (options) {
 			"popup_url": "http://vk.com/share.php?url="
 		},
 		"fb": {
-			"popup_url": "http://fb.com/sharer.php?url="
+			"popup_url": "http://fb.com/sharer/sharer.php?u="
 		},
 		"tw": {
 			"popup_url": "https://twitter.com/intent/tweet?url="
