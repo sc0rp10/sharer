@@ -7,7 +7,7 @@ var Sharer = function (options) {
 			"popup_url": "http://vk.com/share.php?url="
 		},
 		"fb": {
-			"popup_url": "http://fb.com/sharer/sharer.php?u="
+			"popup_url": "http://facebook.com/sharer/sharer.php?u="
 		},
 		"tw": {
 			"popup_url": "https://twitter.com/intent/tweet?url="
@@ -24,14 +24,28 @@ var Sharer = function (options) {
 	}
 	this.share_tw = function () {
 		var meta_title = $("meta[property='og:title']");
-		var content = meta_title.attr("content");
-		var title = content ? " " + content : "";
+		var text = "&text=" + meta_title.attr("content");
 
-		this._openPopup(this.config.tw.popup_url + window.location.href + title, "tw");
+		this._openPopup(this.config.tw.popup_url + window.location.href + text, "tw");
 	}
 
 	this._openPopup = function (url, name) {
-		window.open(url, name + ' Share', 'width=620,height=430,resizable=no,scrollbars=no,status=no')
+		var w = 620;
+		var h = 430;
+		var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+		var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+		var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+		var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+		var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+		var top = ((height / 2) - (h / 2)) + dualScreenTop;
+		var newWindow = window.open(url, name + ' Share', 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+		// Puts focus on the newWindow
+		if (window.focus) {
+			newWindow.focus();
+		}
 	}
 
 	this.bindEvents = function () {
