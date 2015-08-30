@@ -19,7 +19,7 @@ Usage:
 
 	<script>
 		var sharer = new Sharer();
-		sharer.run();
+		$(sharer.run); // method `run` will be bound to right context
 	</script>
 </body>
 </html>
