@@ -16,10 +16,14 @@ function Sharer (options) {
 		this._openPopup(def.fb + window.location.href, "fb");
 	}
 	this.share_tw = function () {
-		var meta_title = document.querySelectorAll("meta[property='og:title']");
-		var text = "&text=" + meta_title.getAttribute("content");
+		var meta_title = document.querySelector("meta[property='og:title']");
+		var text = document.title;
 
-		this._openPopup(def.tw + window.location.href + text, "tw");
+		if (meta_title) {
+			text = meta_title.getAttribute("content");
+		}
+
+		this._openPopup(def.tw + window.location.href + "&text=" + text, "tw");
 	}
 
 	this._openPopup = function (url, name) {
@@ -46,7 +50,7 @@ function Sharer (options) {
 		Object.keys(def).forEach(function (network) {
 			var selector = "[data-share='" + network + "']";
 			document.querySelectorAll(selector).forEach(function(element) {
-				element.addEventListenener("click", self["share_" + network].bind(self));
+				element.addEventListener("click", self["share_" + network].bind(self));
 			});
 		});
 	}
