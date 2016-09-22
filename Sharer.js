@@ -3,56 +3,23 @@ function Sharer (options) {
 	options = options || {};
 	var self = this;
 
-	this._default = {
-		"vk": {
-			"popup_url": "https://vk.com/share.php?url="
-		},
-		"fb": {
-			"popup_url": "http://facebook.com/sharer/sharer.php?u="
-		},
-		"tw": {
-			"popup_url": "https://twitter.com/intent/tweet?url="
-		}
+	var def = {
+		"vk": "https://vk.com/share.php?url=",
+		"fb": "http://facebook.com/sharer/sharer.php?u=",
+		"tw": "https://twitter.com/intent/tweet?url="
 	};
-
-	this._util = {
-		mergeObjects: function (a, b) {
-			var result = {};
-			var func = this.mergeObjects;
-
-			if (b && typeof b === 'object') {
-				Object.keys(b).forEach(function (key) {
-					result[key] = b[key];
-				});
-			}
-
-			Object.keys(a).forEach(function (key) {
-				if (typeof a[key] !== 'object' || !a[key]) {
-					dst[key] = a[key];
-				} else {
-					if (!b[key]) {
-						dst[key] = a[key];
-					} else {
-						dst[key] = func(b[key], a[key]);
-					}
-				}
-			});
-		}
-	};
-
-	this.config = this._util.mergeObjects(this._default, options);
 
 	this.share_vk = function () {
-		this._openPopup(this.config.vk.popup_url + window.location.href, "vk");
+		this._openPopup(def.vk + window.location.href, "vk");
 	}
 	this.share_fb = function () {
-		this._openPopup(this.config.fb.popup_url + window.location.href, "fb");
+		this._openPopup(def.fb + window.location.href, "fb");
 	}
 	this.share_tw = function () {
 		var meta_title = document.querySelectorAll("meta[property='og:title']");
 		var text = "&text=" + meta_title.getAttribute("content");
 
-		this._openPopup(this.config.tw.popup_url + window.location.href + text, "tw");
+		this._openPopup(def.tw + window.location.href + text, "tw");
 	}
 
 	this._openPopup = function (url, name) {
@@ -76,7 +43,7 @@ function Sharer (options) {
 	this.bindEvents = function () {
 		var self = this;
 
-		Object.keys(this.config).forEach(function (network) {
+		Object.keys(def).forEach(function (network) {
 			var selector = "[data-share='" + network + "']";
 			document.querySelectorAll(selector).on("click", self["share_" + network].bind(self));
 		});
