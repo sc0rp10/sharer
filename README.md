@@ -7,6 +7,7 @@ Usage:
 <div data-share="tw">share to tw</div>
 ```
 ```js
-var Sharer = require("sharer");
+var sharer = require("sharer");
+var Sharer = new Sharer();
 Sharer.run();
 ```
