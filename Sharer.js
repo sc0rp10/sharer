@@ -45,7 +45,9 @@ function Sharer (options) {
 
 		Object.keys(def).forEach(function (network) {
 			var selector = "[data-share='" + network + "']";
-			document.querySelectorAll(selector).on("click", self["share_" + network].bind(self));
+			document.querySelectorAll(selector).forEach(function(element) {
+				element.addEventListenener("click", self["share_" + network].bind(self));
+			});
 		});
 	}
 
