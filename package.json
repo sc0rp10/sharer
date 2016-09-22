@@ -3,14 +3,11 @@
   "version": "1.0.0",
   "description": "Open sharing popup for social network",
   "main": "Sharer.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/profileschool/sharer.git"
+    "url": "git+ssh://git@github.com:sc0rp10/sharer.git"
   },
   "author": "Konstantin Zamyakin <dev@weblab.pro>",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/profileschool/sharer#readme"
+  "homepage": "https://github.com/sc0rp10/sharer"
 }
