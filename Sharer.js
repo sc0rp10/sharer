@@ -1,10 +1,11 @@
-var Sharer = function (options) {
+"use strict";
+function Sharer (options) {
 	options = options || {};
 	var self = this;
 
 	this._default = {
 		"vk": {
-			"popup_url": "http://vk.com/share.php?url="
+			"popup_url": "https://vk.com/share.php?url="
 		},
 		"fb": {
 			"popup_url": "http://facebook.com/sharer/sharer.php?u="
@@ -14,7 +15,32 @@ var Sharer = function (options) {
 		}
 	};
 
-	this.config = $.extend(this._default, options);
+	this._util = {
+		mergeObjects: function (a, b) {
+			var result = {};
+			var func = this.mergeObjects;
+
+			if (b && typeof b === 'object') {
+				Object.keys(b).forEach(function (key) {
+					result[key] = b[key];
+				});
+			}
+
+			Object.keys(a).forEach(function (key) {
+				if (typeof a[key] !== 'object' || !a[key]) {
+					dst[key] = a[key];
+				} else {
+					if (!b[key]) {
+						dst[key] = a[key];
+					} else {
+						dst[key] = func(b[key], a[key]);
+					}
+				}
+			});
+		}
+	};
+
+	this.config = this._util.mergeObjects(this._default, options);
 
 	this.share_vk = function () {
 		this._openPopup(this.config.vk.popup_url + window.location.href, "vk");
@@ -23,8 +49,8 @@ var Sharer = function (options) {
 		this._openPopup(this.config.fb.popup_url + window.location.href, "fb");
 	}
 	this.share_tw = function () {
-		var meta_title = $("meta[property='og:title']");
-		var text = "&text=" + meta_title.attr("content");
+		var meta_title = document.querySelectorAll("meta[property='og:title']");
+		var text = "&text=" + meta_title.getAttribute("content");
 
 		this._openPopup(this.config.tw.popup_url + window.location.href + text, "tw");
 	}
@@ -42,7 +68,6 @@ var Sharer = function (options) {
 		var top = ((height / 2) - (h / 2)) + dualScreenTop;
 		var newWindow = window.open(url, name + ' Share', 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 
-		// Puts focus on the newWindow
 		if (window.focus) {
 			newWindow.focus();
 		}
@@ -53,7 +78,7 @@ var Sharer = function (options) {
 
 		Object.keys(this.config).forEach(function (network) {
 			var selector = "[data-share='" + network + "']";
-			$(selector).on("click", self["share_" + network].bind(self));
+			document.querySelectorAll(selector).on("click", self["share_" + network].bind(self));
 		});
 	}
 
@@ -61,3 +86,5 @@ var Sharer = function (options) {
 		this.bindEvents();
 	}.bind(this)
 };
+
+module.exports = Sharer;
