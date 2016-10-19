@@ -55,7 +55,6 @@ function Sharer (options) {
     }
 
     this._openPopup = function (url, name) {
-        console.log(url);
         var w = 620;
         var h = 430;
         var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
@@ -78,10 +77,11 @@ function Sharer (options) {
 
         Object.keys(def).forEach(function (network) {
             var selector = "[data-share='" + network + "']";
+            var nodes = document.querySelectorAll(selector);
 
-            document.querySelectorAll(selector).forEach(function(element) {
-                element.addEventListener("click", self["share_" + network].bind(self));
-            });
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                nodes[i].addEventListener("click", self["share_" + network].bind(self));
+            }
         });
     }
 
