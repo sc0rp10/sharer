@@ -55,8 +55,8 @@ function Sharer (options) {
     }
 
     this._openPopup = function (url, name) {
-        var w = 620;
-        var h = 430;
+        var w = 800;
+        var h = 600;
         var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
         var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
 
