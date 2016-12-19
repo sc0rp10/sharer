@@ -9,16 +9,40 @@ function Sharer (options) {
         "tw": "https://twitter.com/intent/tweet"
     };
 
-    this.share_vk = function () {
-        this._openPopup(def.vk + window.location.href, "vk");
+    this.share_vk = function (e) {
+        var node = e.currentTarget;
+        var has_text = node.hasAttribute("data-text");
+        var has_picture = node.hasAttribute("data-picture");
+        var qs = "?url=" + window.location.href;
+
+        if (has_text) {
+            qs += "&title=" + encodeURIComponent(node.getAttribute("data-text"));
+        }
+
+        if (has_picture) {
+            qs += "&image=" + encodeURIComponent(node.getAttribute("data-picture"));
+        }
+
+        this._openPopup(def.vk + qs, "vk");
     }
 
-    this.share_fb = function () {
+    this.share_fb = function (e) {
+        var node = e.currentTarget;
         var meta_app_id = document.querySelector("meta[property='fb:app_id']");
         var qs = "?display=page";
+        var has_text = node.hasAttribute("data-text");
+        var has_picture = node.hasAttribute("data-picture");
 
         if (meta_app_id) {
             qs += "&app_id=" + meta_app_id.getAttribute("content");
+        }
+
+        if (has_text) {
+            qs += "&text=" + encodeURIComponent(node.getAttribute("data-text"));
+        }
+
+        if (has_picture) {
+            qs += "&picture=" + encodeURIComponent(node.getAttribute("data-picture"));
         }
 
         qs += "&href=" + window.location.href;
@@ -26,9 +50,11 @@ function Sharer (options) {
         this._openPopup(def.fb + qs, "fb");
     }
 
-    this.share_tw = function () {
+    this.share_tw = function (e) {
+        var node = e.currentTarget;
         var meta_title = document.querySelector("meta[property='og:title']");
         var meta_creator = document.querySelector("meta[name='twitter:creator']");
+        var has_text = node.hasAttribute("data-text");
 
         var text = document.title;
         var url = window.location.href,
@@ -37,6 +63,10 @@ function Sharer (options) {
 
         if (meta_title) {
             text = meta_title.getAttribute("content");
+        }
+
+        if (has_text) {
+            text = node.getAttribute("data-text");
         }
 
         if (meta_creator) {
@@ -85,9 +115,7 @@ function Sharer (options) {
         });
     }
 
-    this.run = function() {
-        this.bindEvents();
-    }.bind(this)
+    this.run = this.bindEvents.bind(this);
 };
 
 module.exports = Sharer;
