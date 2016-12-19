@@ -4,7 +4,7 @@ function Sharer (options) {
     var self = this;
 
     var def = {
-        "vk": "https://vk.com/share.php?url=",
+        "vk": "https://vk.com/share.php",
         "fb": "https://www.facebook.com/dialog/share",
         "tw": "https://twitter.com/intent/tweet"
     };
@@ -38,7 +38,7 @@ function Sharer (options) {
         }
 
         if (has_text) {
-            qs += "&text=" + encodeURIComponent(node.getAttribute("data-text"));
+            qs += "&title=" + encodeURIComponent(node.getAttribute("data-text"));
         }
 
         if (has_picture) {
