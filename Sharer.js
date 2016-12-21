@@ -11,12 +11,17 @@ function Sharer (options) {
 
     this.share_vk = function (e) {
         var node = e.currentTarget;
+        var has_title = node.hasAttribute("data-title");
         var has_text = node.hasAttribute("data-text");
         var has_picture = node.hasAttribute("data-picture");
         var qs = "?url=" + window.location.href;
 
+        if (has_title) {
+            qs += "&title=" + encodeURIComponent(node.getAttribute("data-title"));
+        }
+
         if (has_text) {
-            qs += "&title=" + encodeURIComponent(node.getAttribute("data-text"));
+            qs += "&description=" + encodeURIComponent(node.getAttribute("data-text"));
         }
 
         if (has_picture) {
@@ -30,6 +35,7 @@ function Sharer (options) {
         var node = e.currentTarget;
         var meta_app_id = document.querySelector("meta[property='fb:app_id']");
         var qs = "?display=page";
+        var has_title = node.hasAttribute("data-title");
         var has_text = node.hasAttribute("data-text");
         var has_picture = node.hasAttribute("data-picture");
 
@@ -38,7 +44,11 @@ function Sharer (options) {
         }
 
         if (has_text) {
-            qs += "&title=" + encodeURIComponent(node.getAttribute("data-text"));
+            qs += "&title=" + encodeURIComponent(node.getAttribute("data-title"));
+        }
+
+        if (has_text) {
+            qs += "&description=" + encodeURIComponent(node.getAttribute("data-text"));
         }
 
         if (has_picture) {
