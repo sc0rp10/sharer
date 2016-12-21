@@ -14,7 +14,15 @@ function Sharer (options) {
         var has_title = node.hasAttribute("data-title");
         var has_text = node.hasAttribute("data-text");
         var has_picture = node.hasAttribute("data-picture");
-        var qs = "?url=" + window.location.href;
+        var has_url = node.hasAttribute("data-url");
+
+        var qs = "";
+
+        if (has_url) {
+            qs += "?url=" + encodeURIComponent(node.getAttribute("data-url"));
+        } else {
+            qs += "?url=" + window.location.href;
+        }
 
         if (has_title) {
             qs += "&title=" + encodeURIComponent(node.getAttribute("data-title"));
@@ -38,12 +46,13 @@ function Sharer (options) {
         var has_title = node.hasAttribute("data-title");
         var has_text = node.hasAttribute("data-text");
         var has_picture = node.hasAttribute("data-picture");
+        var has_url = node.hasAttribute("data-url");
 
         if (meta_app_id) {
             qs += "&app_id=" + meta_app_id.getAttribute("content");
         }
 
-        if (has_text) {
+        if (has_title) {
             qs += "&title=" + encodeURIComponent(node.getAttribute("data-title"));
         }
 
@@ -55,7 +64,11 @@ function Sharer (options) {
             qs += "&picture=" + encodeURIComponent(node.getAttribute("data-picture"));
         }
 
-        qs += "&href=" + window.location.href;
+        if (has_url) {
+            qs += "&href=" + encodeURIComponent(node.getAttribute("data-url"));
+        } else {
+            qs += "&href=" + window.location.href;
+        }
 
         this._openPopup(def.fb + qs, "fb");
     }
